@@ -18,8 +18,7 @@ export default function MembershipApplyButton({ organizationId }: { organization
   }
 
   return (
-    <button onClick={handleApply} disabled={busy}
-      className="bg-black text-white px-4 py-2 rounded-lg disabled:opacity-50">
+    <button onClick={handleApply} disabled={busy} className="btn-primary">
       {busy ? '送信中...' : '連盟に加盟申請する'}
     </button>
   )

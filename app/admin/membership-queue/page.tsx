@@ -26,20 +26,20 @@ export default function MembershipQueue() {
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-6">加盟申請キュー</h1>
-      {rows.length === 0 && <p className="text-gray-500">申請待ちの団体はありません。</p>}
+    <main className="mx-auto max-w-2xl px-6 py-12">
+      <p className="eyebrow mb-2">Queue</p>
+      <h1 className="page-title mb-6">加盟申請キュー</h1>
+      {rows.length === 0 && <p className="text-sm text-ink/50">申請待ちの団体はありません。</p>}
       <div className="space-y-3">
         {rows.map(r => (
-          <div key={r.id} className="border rounded-lg p-4 flex justify-between items-center">
+          <div key={r.id} className="card flex items-center justify-between">
             <div>
-              <div className="font-bold">{(r as any).schools?.name} {r.name}</div>
-              <div className="text-sm text-gray-500">
+              <div className="font-display font-bold text-navy">{(r as any).schools?.name} {r.name}</div>
+              <div className="font-mono text-xs text-ink/50">
                 申請日: {r.membership_applied_at ? new Date(r.membership_applied_at).toLocaleDateString('ja-JP') : '-'}
               </div>
             </div>
-            <button onClick={() => approve(r.id)} disabled={busyId === r.id}
-              className="bg-black text-white px-4 py-2 rounded-lg disabled:opacity-50">
+            <button onClick={() => approve(r.id)} disabled={busyId === r.id} className="btn-primary">
               {busyId === r.id ? '処理中...' : '承認する'}
             </button>
           </div>

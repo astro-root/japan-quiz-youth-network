@@ -38,46 +38,48 @@ export default function AdminBilling() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-6">年会費管理（{CURRENT_FISCAL_YEAR}年度）</h1>
+    <main className="mx-auto max-w-3xl px-6 py-12">
+      <p className="eyebrow mb-2">Billing</p>
+      <h1 className="page-title mb-6">年会費管理（{CURRENT_FISCAL_YEAR}年度）</h1>
 
-      <div className="flex items-center gap-2 mb-8">
-        <input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))}
-          className="border p-2 rounded w-32" />
-        <span>円 / 団体</span>
-        <button onClick={issueInvoices} disabled={busy}
-          className="bg-black text-white px-4 py-2 rounded-lg disabled:opacity-50">
+      <div className="mb-8 flex items-center gap-2">
+        <input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} className="input-base w-32" />
+        <span className="text-sm text-ink/60">円 / 団体</span>
+        <button onClick={issueInvoices} disabled={busy} className="btn-primary">
           {busy ? '処理中...' : '加盟団体へ一斉請求発行'}
         </button>
       </div>
 
-      <table className="w-full text-sm border-collapse">
-        <thead>
-          <tr className="border-b text-left text-gray-500">
-            <th className="py-2">団体</th><th>金額</th><th>状態</th><th>請求日</th><th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map(r => (
-            <tr key={r.id} className="border-b">
-              <td className="py-2">{r.organizations?.schools?.name} {r.organizations?.name}</td>
-              <td>{r.amount.toLocaleString()}円</td>
-              <td>
-                <span className={
-                  r.status === 'paid' ? 'text-green-600' :
-                  r.status === 'overdue' ? 'text-red-600' : 'text-gray-600'
-                }>{r.status}</span>
-              </td>
-              <td>{r.invoiced_at ? new Date(r.invoiced_at).toLocaleDateString('ja-JP') : '-'}</td>
-              <td>
-                {r.status !== 'paid' && (
-                  <button onClick={() => markPaid(r.id)} className="text-blue-600 underline">振込確認済にする</button>
-                )}
-              </td>
+      <div className="card overflow-hidden p-0">
+        <table className="w-full text-sm">
+          <thead>
+            <tr className="border-b border-line text-left font-mono text-xs text-ink/50">
+              <th className="p-3">団体</th><th>金額</th><th>状態</th><th>請求日</th><th></th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {rows.map(r => (
+              <tr key={r.id} className="border-b border-line last:border-0">
+                <td className="p-3">{r.organizations?.schools?.name} {r.organizations?.name}</td>
+                <td>{r.amount.toLocaleString()}円</td>
+                <td>
+                  <span className={
+                    r.status === 'paid' ? 'badge-navy' :
+                    r.status === 'overdue' ? 'rounded-full bg-akane/10 px-3 py-1 text-xs font-bold text-akane' :
+                    'badge-gold'
+                  }>{r.status}</span>
+                </td>
+                <td>{r.invoiced_at ? new Date(r.invoiced_at).toLocaleDateString('ja-JP') : '-'}</td>
+                <td>
+                  {r.status !== 'paid' && (
+                    <button onClick={() => markPaid(r.id)} className="font-display text-xs font-bold text-akane underline">振込確認済にする</button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </main>
   )
 }

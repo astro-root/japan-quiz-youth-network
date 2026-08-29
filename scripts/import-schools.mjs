@@ -21,20 +21,30 @@ async function main() {
   const hasHeader = first[0] === '地域' && first[1] === '都道府県' && first[2] === '区分' && first[3] === '学校名'
   const dataLines = hasHeader ? lines.slice(1) : lines
 
-  const rows = []
+  const rowMap = new Map()
   const skipped = []
+  const duplicates = []
 
   for (const line of dataLines) {
     const [, prefecture, schoolType, name] = line.split(',').map(s => s.trim())
     if (!prefecture || !schoolType || !name) { skipped.push(line); continue }
     if (!VALID_TYPES.includes(schoolType)) { skipped.push(line); continue }
-    rows.push({ name, prefecture, school_type: schoolType })
+
+    const key = `${prefecture}__${name}`
+    if (rowMap.has(key)) { duplicates.push(line) }
+    rowMap.set(key, { name, prefecture, school_type: schoolType })
   }
 
-  console.log(`取り込み対象: ${rows.length}件 / 不正な行でスキップ: ${skipped.length}件`)
+  const rows = Array.from(rowMap.values())
+
+  console.log(`取り込み対象: ${rows.length}件 / 不正な行でスキップ: ${skipped.length}件 / 重複でスキップ: ${duplicates.length}件`)
   if (skipped.length > 0) {
-    console.log('スキップされた行（区分が不正、または列が不足しています）:')
+    console.log('不正な行（区分が不正、または列が不足しています）:')
     skipped.forEach(l => console.log(' -', l))
+  }
+  if (duplicates.length > 0) {
+    console.log('重複していた行（都道府県+学校名が同一、後勝ちで1件のみ登録）:')
+    duplicates.forEach(l => console.log(' -', l))
   }
 
   const chunkSize = 500
@@ -47,7 +57,7 @@ async function main() {
       console.error(`chunk ${i / chunkSize + 1} でエラー:`, error.message)
       process.exit(1)
     }
-    console.log(`${i + chunk.length} / ${rows.length} 件 完了`)
+    console.log(`${Math.min(i + chunk.length, rows.length)} / ${rows.length} 件 完了`)
   }
 
   console.log('取り込み完了')

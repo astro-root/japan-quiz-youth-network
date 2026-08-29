@@ -16,31 +16,35 @@ export default async function MyPage() {
   const org = profile?.organizations as any
 
   return (
-    <main className="max-w-md mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-6">マイページ</h1>
-      <dl className="space-y-2 mb-8">
-        <div><dt className="text-sm text-gray-500">本名</dt><dd>{profile?.real_name}</dd></div>
-        <div><dt className="text-sm text-gray-500">ハンドルネーム</dt><dd>{profile?.handle_name}</dd></div>
-        <div><dt className="text-sm text-gray-500">学校</dt><dd>{profile?.schools?.name}</dd></div>
-        <div><dt className="text-sm text-gray-500">学年</dt><dd>{profile?.grade}年生</dd></div>
-        <div><dt className="text-sm text-gray-500">役職</dt><dd>{profile?.role}</dd></div>
-        <div><dt className="text-sm text-gray-500">ステータス</dt><dd>{profile?.status}</dd></div>
-      </dl>
+    <main className="mx-auto max-w-md px-6 py-12">
+      <p className="eyebrow mb-2">My Page</p>
+      <h1 className="page-title mb-6">マイページ</h1>
+
+      <div className="card mb-6">
+        <dl className="space-y-3">
+          <div><dt className="font-mono text-xs text-ink/50">本名</dt><dd>{profile?.real_name}</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">ハンドルネーム</dt><dd>{profile?.handle_name}</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">学校</dt><dd>{profile?.schools?.name}</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">学年</dt><dd>{profile?.grade}年生</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">役職</dt><dd>{profile?.role}</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">ステータス</dt><dd>{profile?.status}</dd></div>
+        </dl>
+      </div>
 
       {org && (profile?.role === 'captain' || profile?.role === 'advisor') && (
-        <div className="border rounded-lg p-4">
-          <div className="font-bold mb-2">{org.name} の連盟加盟</div>
+        <div className="card">
+          <p className="font-display font-bold text-navy mb-3">{org.name} の連盟加盟</p>
           {org.membership_status === 'unclaimed' && org.verified && (
             <MembershipApplyButton organizationId={org.id} />
           )}
           {org.membership_status === 'unclaimed' && !org.verified && (
-            <p className="text-sm text-gray-500">代表者確定の処理中です。しばらくお待ちください。</p>
+            <p className="text-sm text-ink/60">代表者確定の処理中です。しばらくお待ちください。</p>
           )}
           {org.membership_status === 'applied' && (
-            <p className="text-sm text-orange-600">連盟事務局にて審査中です。</p>
+            <p className="badge-gold">審査中</p>
           )}
           {org.membership_status === 'member' && (
-            <p className="text-sm text-green-600">加盟団体として登録されています。</p>
+            <p className="badge-navy">加盟団体</p>
           )}
         </div>
       )}

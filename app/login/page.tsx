@@ -15,12 +15,13 @@ export default function Login() {
   }
 
   return (
-    <main className="max-w-sm mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-6">ログイン</h1>
+    <main className="mx-auto max-w-sm px-6 py-12">
+      <p className="eyebrow mb-2">Sign in</p>
+      <h1 className="page-title mb-6">ログイン</h1>
       <form onSubmit={handleLogin} className="space-y-3">
-        <input placeholder="メールアドレス" type="email" onChange={e => setEmail(e.target.value)} className="w-full border p-2 rounded" />
-        <input placeholder="パスワード" type="password" onChange={e => setPassword(e.target.value)} className="w-full border p-2 rounded" />
-        <button className="w-full bg-black text-white p-2 rounded">ログイン</button>
+        <input placeholder="メールアドレス" type="email" onChange={e => setEmail(e.target.value)} className="input-base" />
+        <input placeholder="パスワード" type="password" onChange={e => setPassword(e.target.value)} className="input-base" />
+        <button className="btn-primary w-full">ログイン</button>
       </form>
     </main>
   )

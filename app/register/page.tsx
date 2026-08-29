@@ -73,21 +73,22 @@ export default function Register() {
   const gradeOptions = schoolType ? GRADE_RANGE[schoolType] : [1, 2, 3]
 
   return (
-    <main className="max-w-md mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-6">新規登録</h1>
+    <main className="mx-auto max-w-md px-6 py-12">
+      <p className="eyebrow mb-2">Join</p>
+      <h1 className="page-title mb-6">新規登録</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
         <input placeholder="メールアドレス" type="email" required
-          onChange={e => setForm({ ...form, email: e.target.value })} className="w-full border p-2 rounded" />
+          onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
         <input placeholder="パスワード" type="password" required
-          onChange={e => setForm({ ...form, password: e.target.value })} className="w-full border p-2 rounded" />
+          onChange={e => setForm({ ...form, password: e.target.value })} className="input-base" />
         <input placeholder="本名" required
-          onChange={e => setForm({ ...form, realName: e.target.value })} className="w-full border p-2 rounded" />
+          onChange={e => setForm({ ...form, realName: e.target.value })} className="input-base" />
         <input placeholder="ハンドルネーム" required
-          onChange={e => setForm({ ...form, handleName: e.target.value })} className="w-full border p-2 rounded" />
+          onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
 
         <select value={region} required
           onChange={e => { setRegion(e.target.value); setPrefecture(''); handleSchoolTypeChange('') }}
-          className="w-full border p-2 rounded">
+          className="input-base">
           <option value="">地域を選択</option>
           {Object.keys(REGIONS).map(r => <option key={r} value={r}>{r}</option>)}
         </select>
@@ -95,7 +96,7 @@ export default function Register() {
         {region && (
           <select value={prefecture} required
             onChange={e => { setPrefecture(e.target.value); handleSchoolTypeChange('') }}
-            className="w-full border p-2 rounded">
+            className="input-base">
             <option value="">都道府県を選択</option>
             {REGIONS[region].map(p => <option key={p} value={p}>{p}</option>)}
           </select>
@@ -104,7 +105,7 @@ export default function Register() {
         {prefecture && (
           <select value={schoolType} required
             onChange={e => handleSchoolTypeChange(e.target.value)}
-            className="w-full border p-2 rounded">
+            className="input-base">
             <option value="">学校種を選択</option>
             {SCHOOL_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
           </select>
@@ -113,11 +114,11 @@ export default function Register() {
         {prefecture && schoolType && (
           <div className="relative">
             <input placeholder="学校名を検索" value={schoolQuery}
-              onChange={e => searchSchools(e.target.value)} className="w-full border p-2 rounded" />
+              onChange={e => searchSchools(e.target.value)} className="input-base" />
             {schools.length > 0 && (
-              <ul className="absolute z-10 bg-white border w-full rounded shadow max-h-56 overflow-y-auto">
+              <ul className="absolute z-10 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-white shadow-lg">
                 {schools.map(s => (
-                  <li key={s.id} className="p-2 hover:bg-gray-100 cursor-pointer"
+                  <li key={s.id} className="cursor-pointer p-2 hover:bg-paper"
                     onClick={() => {
                       setSchoolId(s.id)
                       setSelectedSchoolLabel(s.name)
@@ -129,28 +130,28 @@ export default function Register() {
                 ))}
               </ul>
             )}
-            {schoolId && <p className="text-xs text-green-600 mt-1">選択中: {selectedSchoolLabel}</p>}
+            {schoolId && <p className="mt-1 text-xs text-akane">選択中: {selectedSchoolLabel}</p>}
           </div>
         )}
 
         <input placeholder="誕生日" type="date" required
-          onChange={e => setForm({ ...form, birthday: e.target.value })} className="w-full border p-2 rounded" />
-        <select onChange={e => setForm({ ...form, gender: e.target.value })} className="w-full border p-2 rounded">
+          onChange={e => setForm({ ...form, birthday: e.target.value })} className="input-base" />
+        <select onChange={e => setForm({ ...form, gender: e.target.value })} className="input-base">
           <option value="no_answer">回答しない</option>
           <option value="male">男性</option>
           <option value="female">女性</option>
           <option value="other">その他</option>
         </select>
-        <select value={form.grade} onChange={e => setForm({ ...form, grade: e.target.value })} className="w-full border p-2 rounded">
+        <select value={form.grade} onChange={e => setForm({ ...form, grade: e.target.value })} className="input-base">
           {gradeOptions.map(g => <option key={g} value={g}>{g}年生</option>)}
         </select>
-        <select onChange={e => setForm({ ...form, role: e.target.value })} className="w-full border p-2 rounded">
+        <select onChange={e => setForm({ ...form, role: e.target.value })} className="input-base">
           <option value="member">部員</option>
           <option value="captain">部長</option>
           <option value="vice_captain">副部長</option>
           <option value="advisor">顧問</option>
         </select>
-        <button className="w-full bg-black text-white p-2 rounded">登録する</button>
+        <button className="btn-primary w-full">登録する</button>
       </form>
     </main>
   )

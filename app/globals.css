@@ -1,3 +1,52 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  background-color: #FAF7EF;
+  color: #1C1C1E;
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-akane px-6 py-3 font-display font-bold text-paper transition hover:brightness-110 disabled:opacity-50;
+    box-shadow: 0 0 0 3px rgba(190, 42, 40, 0.15);
+  }
+  .btn-primary:hover { box-shadow: 0 0 0 5px rgba(190, 42, 40, 0.2); }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border-2 border-navy px-6 py-3 font-display font-bold text-navy transition hover:bg-navy hover:text-paper disabled:opacity-50;
+  }
+
+  .card {
+    @apply rounded-2xl border border-line bg-white p-6 shadow-sm;
+  }
+
+  .input-base {
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-akane/40;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs uppercase tracking-widest text-akane;
+  }
+
+  .badge-gold {
+    @apply inline-flex items-center rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold;
+  }
+
+  .badge-navy {
+    @apply inline-flex items-center rounded-full bg-navy/10 px-3 py-1 text-xs font-bold text-navy;
+  }
+
+  .page-title {
+    @apply font-display text-2xl font-bold text-navy;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .buzzer-pulse { animation: buzzer-pulse 2.4s ease-in-out infinite; }
+}
+@keyframes buzzer-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+}

@@ -3,3 +3,6 @@
 .env*.local
 .env
 node_modules
+
+.next/
+supabase/.temp/

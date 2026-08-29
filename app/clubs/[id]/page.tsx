@@ -6,11 +6,16 @@ export default async function ClubDetail({ params }: { params: Promise<{ id: str
   const { data: club } = await supabase.from('organization_stats').select('*').eq('organization_id', id).single()
 
   return (
-    <main className="max-w-2xl mx-auto px-6 py-12">
-      <h1 className="text-xl font-bold mb-2">{club?.school_name} {club?.name}</h1>
-      <p>部員数: {club?.member_count}名</p>
-      <p>部長: {club?.captain_name ?? '未設定'}</p>
-      <p>男女比: {club?.male_count}:{club?.female_count}</p>
+    <main className="mx-auto max-w-2xl px-6 py-12">
+      <p className="eyebrow mb-2">Club</p>
+      <h1 className="page-title mb-4">{club?.school_name} {club?.name}</h1>
+      <div className="card">
+        <dl className="space-y-2 font-mono text-sm">
+          <div>部員数: {club?.member_count}名</div>
+          <div>部長: {club?.captain_name ?? '未設定'}</div>
+          <div>男女比: {club?.male_count}:{club?.female_count}</div>
+        </dl>
+      </div>
     </main>
   )
 }
