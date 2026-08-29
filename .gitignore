@@ -2,3 +2,4 @@
 # Supabase / 環境変数
 .env*.local
 .env
+node_modules
