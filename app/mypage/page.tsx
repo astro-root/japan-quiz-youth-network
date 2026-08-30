@@ -9,7 +9,7 @@ export default async function MyPage() {
 
   const { data: profile, error } = await supabase
     .from('profiles')
-    .select('*, schools(name, prefecture), organizations(id, name, verified, membership_status)')
+    .select('*, schools(name, prefecture), organizations!profiles_organization_id_fkey(id, name, verified, membership_status)')
     .eq('id', user.id)
     .maybeSingle()
 
