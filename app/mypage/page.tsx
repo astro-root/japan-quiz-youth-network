@@ -1,6 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import MembershipApplyButton from './apply-button'
+import { FEDERATION_ROLE_LABELS, type FederationRole } from '@/lib/roles'
 
 export default async function MyPage() {
   const supabase = await createClient()
@@ -30,18 +31,25 @@ export default async function MyPage() {
   }
 
   const org = profile.organizations as any
+  const roles: FederationRole[] = profile.federation_roles ?? ['member']
 
   return (
     <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
-      <p className="eyebrow mb-2">My Page</p>
-      <h1 className="page-title mb-6">マイページ</h1>
-
-      {(profile.is_staff || profile.is_super_admin) && (
-        <div className="mb-4 flex gap-2">
-          {profile.is_super_admin && <span className="badge-gold">最高管理者</span>}
-          {profile.is_staff && <span className="badge-navy">運営スタッフ</span>}
+      <div className="mb-6 flex items-center justify-between">
+        <div>
+          <p className="eyebrow mb-2">My Page</p>
+          <h1 className="page-title">マイページ</h1>
         </div>
-      )}
+        <a href="/mypage/edit" className="btn-secondary text-sm">編集する</a>
+      </div>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        {roles.map(r => (
+          <span key={r} className={r === 'member' ? 'badge-navy' : 'badge-gold'}>
+            {FEDERATION_ROLE_LABELS[r]}
+          </span>
+        ))}
+      </div>
 
       <div className="card mb-6">
         <dl className="space-y-3">
@@ -49,7 +57,7 @@ export default async function MyPage() {
           <div><dt className="font-mono text-xs text-ink/50">ハンドルネーム</dt><dd>{profile.handle_name}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">学校</dt><dd>{profile.schools?.name}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">学年</dt><dd>{profile.grade}年生</dd></div>
-          <div><dt className="font-mono text-xs text-ink/50">役職</dt><dd>{profile.role}</dd></div>
+          <div><dt className="font-mono text-xs text-ink/50">部内の役職</dt><dd>{profile.role}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">ステータス</dt><dd>{profile.status}</dd></div>
         </dl>
       </div>

@@ -1,5 +1,6 @@
 import './globals.css'
 import Header from './components/Header'
+import Footer from './components/Footer'
 
 export const metadata = {
   title: '全国中高クイズ連盟 | Japan Youth Quiz Network',
@@ -17,9 +18,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="font-body">
+      <body className="flex min-h-screen flex-col font-body">
         <Header />
-        {children}
+        <div className="flex-1">{children}</div>
+        <Footer />
       </body>
     </html>
   )
