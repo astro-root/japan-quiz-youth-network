@@ -16,6 +16,7 @@ export default function Header() {
 
         <nav className="hidden gap-6 font-display text-sm font-bold text-navy md:flex">
           <a href="/clubs" className="hover:text-akane">クイズ研究部</a>
+          <a href="/team" className="hover:text-akane">運営体制</a>
           <a href="/mypage" className="hover:text-akane">マイページ</a>
           <a href="/login" className="hover:text-akane">ログイン</a>
         </nav>
@@ -30,6 +31,7 @@ export default function Header() {
       {open && (
         <nav className="flex flex-col gap-1 border-t border-line px-4 py-3 font-display text-sm font-bold text-navy md:hidden">
           <a href="/clubs" className="rounded-lg px-2 py-2 hover:bg-white" onClick={() => setOpen(false)}>クイズ研究部</a>
+          <a href="/team" className="rounded-lg px-2 py-2 hover:bg-white" onClick={() => setOpen(false)}>運営体制</a>
           <a href="/mypage" className="rounded-lg px-2 py-2 hover:bg-white" onClick={() => setOpen(false)}>マイページ</a>
           <a href="/login" className="rounded-lg px-2 py-2 hover:bg-white" onClick={() => setOpen(false)}>ログイン</a>
         </nav>

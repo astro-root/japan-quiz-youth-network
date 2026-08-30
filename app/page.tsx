@@ -1,4 +1,14 @@
-export default function Home() {
+import { createClient } from '@/lib/supabase/server'
+
+export default async function Home() {
+  const supabase = await createClient()
+
+  const { count: memberCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true })
+  const { count: clubCount } = await supabase.from('organizations').select('*', { count: 'exact', head: true }).eq('membership_status', 'member')
+  const { data: prefData } = await supabase.from('organizations').select('schools(prefecture)').eq('membership_status', 'member')
+  const prefectureCount = new Set((prefData ?? []).map((r: any) => r.schools?.prefecture).filter(Boolean)).size
+  const { data: latestNews } = await supabase.from('announcements').select('id, title, published_at').eq('status', 'published').order('published_at', { ascending: false }).limit(2)
+
   return (
     <main className="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-16">
       <section className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
@@ -14,9 +24,7 @@ export default function Home() {
           <div className="mt-8 flex flex-wrap gap-3 md:gap-4">
             <a href="/register" className="btn-primary">新規登録</a>
             <a href="/clubs" className="btn-secondary">加盟クイズ研究部一覧</a>
-            <a href="/login" className="font-display font-bold text-navy underline underline-offset-4">
-              ログイン
-            </a>
+            <a href="/login" className="font-display font-bold text-navy underline underline-offset-4">ログイン</a>
           </div>
         </div>
 
@@ -31,7 +39,22 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="mt-16 border-t border-line pt-12 md:mt-24 md:pt-16">
+      <section className="mt-16 grid grid-cols-3 gap-4 border-y border-line py-8 md:mt-20">
+        <div className="text-center">
+          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{memberCount ?? 0}</div>
+          <div className="mt-1 text-xs text-ink/50">登録会員数</div>
+        </div>
+        <div className="text-center">
+          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{clubCount ?? 0}</div>
+          <div className="mt-1 text-xs text-ink/50">加盟クイズ研究部</div>
+        </div>
+        <div className="text-center">
+          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{prefectureCount}</div>
+          <div className="mt-1 text-xs text-ink/50">都道府県に展開</div>
+        </div>
+      </section>
+
+      <section className="mt-16 border-t border-line pt-12 md:mt-20 md:pt-16">
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
           <div>
             <p className="eyebrow mb-2">Q1.</p>
@@ -50,6 +73,23 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {latestNews && latestNews.length > 0 && (
+        <section className="mt-12 md:mt-16">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="page-title">お知らせ</h2>
+            <a href="/announcements" className="text-sm font-bold text-navy underline">すべて見る</a>
+          </div>
+          <div className="space-y-3">
+            {latestNews.map(n => (
+              <a key={n.id} href="/announcements" className="card block transition hover:border-akane">
+                <p className="mb-1 font-mono text-xs text-ink/50">{n.published_at ? new Date(n.published_at).toLocaleDateString('ja-JP') : ''}</p>
+                <p className="font-display font-bold text-navy">{n.title}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="mt-12 md:mt-16">
         <div className="card">

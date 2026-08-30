@@ -1,7 +1,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import MembershipApplyButton from './apply-button'
+import DeleteAccountButton from './delete-account-button'
 import { FEDERATION_ROLE_LABELS, type FederationRole } from '@/lib/roles'
+
+const ADMIN_PAGE_ROLES: FederationRole[] = ['federation_president', 'cto', 'admin']
 
 export default async function MyPage() {
   const supabase = await createClient()
@@ -32,6 +35,7 @@ export default async function MyPage() {
 
   const org = profile.organizations as any
   const roles: FederationRole[] = profile.federation_roles ?? ['member']
+  const hasAdminAccess = roles.some(r => ADMIN_PAGE_ROLES.includes(r))
 
   return (
     <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
@@ -51,6 +55,13 @@ export default async function MyPage() {
         ))}
       </div>
 
+      {hasAdminAccess && (
+        <a href="/admin" className="card mb-6 block border-akane/40 bg-akane/5 transition hover:border-akane">
+          <p className="font-display font-bold text-akane">管理画面を開く →</p>
+          <p className="text-xs text-ink/60">お知らせ配信・参加者管理・年会費管理などはこちらから</p>
+        </a>
+      )}
+
       <div className="card mb-6">
         <dl className="space-y-3">
           <div><dt className="font-mono text-xs text-ink/50">氏名</dt><dd>{profile.last_name} {profile.first_name}（{profile.last_name_kana} {profile.first_name_kana}）</dd></div>
@@ -63,18 +74,18 @@ export default async function MyPage() {
       </div>
 
       {org && (profile.role === 'captain' || profile.role === 'advisor') && (
-        <div className="card">
+        <div className="card mb-6">
           <p className="mb-3 font-display font-bold text-navy">{org.name} の連盟加盟</p>
-          {org.membership_status === 'unclaimed' && org.verified && (
-            <MembershipApplyButton organizationId={org.id} />
-          )}
-          {org.membership_status === 'unclaimed' && !org.verified && (
-            <p className="text-sm text-ink/60">代表者確定の処理中です。しばらくお待ちください。</p>
-          )}
+          {org.membership_status === 'unclaimed' && org.verified && <MembershipApplyButton organizationId={org.id} />}
+          {org.membership_status === 'unclaimed' && !org.verified && <p className="text-sm text-ink/60">代表者確定の処理中です。しばらくお待ちください。</p>}
           {org.membership_status === 'applied' && <p className="badge-gold">審査中</p>}
           {org.membership_status === 'member' && <p className="badge-navy">加盟団体</p>}
         </div>
       )}
+
+      <div className="border-t border-line pt-4 text-right">
+        <DeleteAccountButton />
+      </div>
     </main>
   )
 }

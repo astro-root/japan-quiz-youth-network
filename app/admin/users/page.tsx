@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 import { FEDERATION_ROLES, FEDERATION_ROLE_LABELS, type FederationRole } from '@/lib/roles'
 
@@ -7,6 +7,7 @@ export default function AdminUsers() {
   const supabase = createClient()
   const [myRoles, setMyRoles] = useState<FederationRole[]>([])
   const [rows, setRows] = useState<any[]>([])
+  const [query, setQuery] = useState('')
   const [busyKey, setBusyKey] = useState<string | null>(null)
 
   const canManage = myRoles.includes('federation_president') || myRoles.includes('cto')
@@ -25,6 +26,16 @@ export default function AdminUsers() {
   }
   useEffect(() => { load() }, [])
 
+  const filtered = useMemo(() => {
+    if (!query.trim()) return rows
+    const q = query.trim()
+    return rows.filter(r =>
+      `${r.last_name}${r.first_name}`.includes(q) ||
+      r.handle_name?.includes(q) ||
+      (r as any).schools?.name?.includes(q)
+    )
+  }, [rows, query])
+
   async function toggleRole(userId: string, role: FederationRole, grant: boolean) {
     setBusyKey(`${userId}-${role}`)
     const { error } = await supabase.rpc('set_user_role', { p_user_id: userId, p_role: role, p_grant: grant })
@@ -38,17 +49,24 @@ export default function AdminUsers() {
       <p className="eyebrow mb-2">Users</p>
       <h1 className="page-title mb-6">参加者・役職管理</h1>
 
-      {!canManage && (
-        <p className="mb-6 text-sm text-ink/60">閲覧のみ可能です。役職の変更は連盟長・最高技術責任者のみ行えます。</p>
-      )}
+      <input
+        placeholder="氏名・ハンドルネーム・学校名で検索"
+        value={query}
+        onChange={e => setQuery(e.target.value)}
+        className="input-base mb-6"
+      />
+
+      {!canManage && <p className="mb-6 text-sm text-ink/60">閲覧のみ可能です。役職の変更は連盟長・最高技術責任者のみ行えます。</p>}
 
       <div className="space-y-3">
-        {rows.map(r => {
+        {filtered.map(r => {
           const roles: FederationRole[] = r.federation_roles ?? ['member']
           return (
             <div key={r.id} className="card">
               <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-                <div className="font-display font-bold text-navy">{r.last_name} {r.first_name}（{r.handle_name}）</div>
+                <a href={`/admin/users/${r.id}`} className="font-display font-bold text-navy hover:text-akane hover:underline">
+                  {r.last_name} {r.first_name}（{r.handle_name}）
+                </a>
                 <div className="text-xs text-ink/50">{(r as any).schools?.name ?? '-'}</div>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -56,14 +74,11 @@ export default function AdminUsers() {
                   const active = roles.includes(role)
                   const key = `${r.id}-${role}`
                   return (
-                    <button
-                      key={role}
-                      disabled={!canManage || busyKey === key}
+                    <button key={role} disabled={!canManage || busyKey === key}
                       onClick={() => toggleRole(r.id, role, !active)}
                       className={active
                         ? 'rounded-full bg-navy px-3 py-1 text-xs font-bold text-paper disabled:opacity-50'
-                        : 'rounded-full border border-line px-3 py-1 text-xs font-bold text-ink/50 disabled:opacity-50'}
-                    >
+                        : 'rounded-full border border-line px-3 py-1 text-xs font-bold text-ink/50 disabled:opacity-50'}>
                       {FEDERATION_ROLE_LABELS[role]}
                     </button>
                   )
@@ -72,6 +87,7 @@ export default function AdminUsers() {
             </div>
           )
         })}
+        {filtered.length === 0 && <p className="text-sm text-ink/50">該当する参加者が見つかりませんでした。</p>}
       </div>
     </main>
   )
