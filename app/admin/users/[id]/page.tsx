@@ -11,14 +11,19 @@ export default async function AdminUserDetail({ params }: { params: Promise<{ id
     .maybeSingle()
 
   if (!profile) {
-    return <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12"><p className="text-sm text-ink/50">参加者が見つかりませんでした。</p></main>
+    return (
+      <main className="page-container">
+        <div className="page-narrow"><p className="text-sm text-ink/50">参加者が見つかりませんでした。</p></div>
+      </main>
+    )
   }
 
   const roles: FederationRole[] = profile.federation_roles ?? ['member']
   const org = profile.organizations as any
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">User Detail</p>
       <h1 className="page-title mb-2">{profile.last_name} {profile.first_name}</h1>
       <div className="mb-6 flex flex-wrap gap-2">
@@ -43,6 +48,7 @@ export default async function AdminUserDetail({ params }: { params: Promise<{ id
       </div>
 
       <a href="/admin/users" className="mt-4 inline-block text-sm font-bold text-navy underline">一覧に戻る</a>
+      </div>
     </main>
   )
 }

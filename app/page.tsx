@@ -10,7 +10,7 @@ export default async function Home() {
   const { data: latestNews } = await supabase.from('announcements').select('id, title, published_at').eq('status', 'published').order('published_at', { ascending: false }).limit(2)
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-12 md:px-6 md:py-16">
+    <main className="page-container">
       <section className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
         <div>
           <p className="eyebrow mb-3">Japan Youth Quiz Network</p>
@@ -39,18 +39,18 @@ export default async function Home() {
         </div>
       </section>
 
-      <section className="mt-16 grid grid-cols-3 gap-4 border-y border-line py-8 md:mt-20">
+      <section className="mt-16 grid grid-cols-3 gap-2 border-y border-line py-8 sm:gap-4 md:mt-20">
         <div className="text-center">
-          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{memberCount ?? 0}</div>
-          <div className="mt-1 text-xs text-ink/50">登録会員数</div>
+          <div className="font-mono text-xl font-bold text-navy sm:text-3xl md:text-4xl">{memberCount ?? 0}</div>
+          <div className="mt-1 text-[11px] text-ink/50 sm:text-xs">登録会員数</div>
         </div>
         <div className="text-center">
-          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{clubCount ?? 0}</div>
-          <div className="mt-1 text-xs text-ink/50">加盟クイズ研究部</div>
+          <div className="font-mono text-xl font-bold text-navy sm:text-3xl md:text-4xl">{clubCount ?? 0}</div>
+          <div className="mt-1 text-[11px] text-ink/50 sm:text-xs">加盟クイズ研究部</div>
         </div>
         <div className="text-center">
-          <div className="font-mono text-3xl font-bold text-navy md:text-4xl">{prefectureCount}</div>
-          <div className="mt-1 text-xs text-ink/50">都道府県に展開</div>
+          <div className="font-mono text-xl font-bold text-navy sm:text-3xl md:text-4xl">{prefectureCount}</div>
+          <div className="mt-1 text-[11px] text-ink/50 sm:text-xs">都道府県に展開</div>
         </div>
       </section>
 

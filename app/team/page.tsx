@@ -20,7 +20,8 @@ export default async function Team() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Team</p>
       <h1 className="page-title mb-8">運営体制</h1>
       <div className="space-y-8">
@@ -35,6 +36,7 @@ export default async function Team() {
           </div>
         ))}
         {Object.keys(byRole).length === 0 && <p className="text-sm text-ink/50">現在、公開できる役職者情報はありません。</p>}
+      </div>
       </div>
     </main>
   )

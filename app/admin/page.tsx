@@ -35,7 +35,7 @@ export default function Admin() {
   if (!stats) return <p className="p-12 font-mono text-sm text-ink/50">読み込み中...</p>
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
       <p className="eyebrow mb-2">Admin</p>
       <h1 className="page-title mb-6">管理画面</h1>
 

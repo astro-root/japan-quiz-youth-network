@@ -1,6 +1,7 @@
 export default function Privacy() {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Privacy Policy</p>
       <h1 className="page-title mb-6">プライバシーポリシー</h1>
       <div className="card space-y-5 text-sm leading-relaxed text-ink/70">
@@ -84,6 +85,7 @@ export default function Privacy() {
         <p>個人情報の取り扱いに関するお問い合わせは、お問い合わせフォームよりご連絡ください。</p>
 
         <p className="text-xs text-ink/40">制定日: 2026年8月30日</p>
+      </div>
       </div>
     </main>
   )

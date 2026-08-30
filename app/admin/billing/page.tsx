@@ -38,11 +38,11 @@ export default function AdminBilling() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-6 py-12">
+    <main className="page-container">
       <p className="eyebrow mb-2">Billing</p>
       <h1 className="page-title mb-6">年会費管理（{CURRENT_FISCAL_YEAR}年度）</h1>
 
-      <div className="mb-8 flex items-center gap-2">
+      <div className="mb-8 flex flex-wrap items-center gap-2">
         <input type="number" value={amount} onChange={e => setAmount(Number(e.target.value))} className="input-base w-32" />
         <span className="text-sm text-ink/60">円 / 団体</span>
         <button onClick={issueInvoices} disabled={busy} className="btn-primary">

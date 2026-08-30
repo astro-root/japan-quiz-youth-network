@@ -1,6 +1,7 @@
 export default function Terms() {
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Terms of Use</p>
       <h1 className="page-title mb-6">利用規約</h1>
       <div className="card space-y-5 text-sm leading-relaxed text-ink/70">
@@ -73,6 +74,7 @@ export default function Terms() {
         <p>本規約の解釈にあたっては日本法を準拠法とし、本サービスに関する紛争については、当連盟の所在地を管轄する裁判所を専属的合意管轄とします。</p>
 
         <p className="text-xs text-ink/40">制定日: 2026年8月30日</p>
+      </div>
       </div>
     </main>
   )

@@ -44,7 +44,8 @@ export default function AdminAnnouncements() {
   }
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Announcements</p>
       <h1 className="page-title mb-6">お知らせ配信</h1>
 
@@ -72,6 +73,7 @@ export default function AdminAnnouncements() {
             <p className="mt-1 whitespace-pre-wrap text-sm text-ink/70">{a.body}</p>
           </div>
         ))}
+      </div>
       </div>
     </main>
   )

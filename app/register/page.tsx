@@ -14,6 +14,13 @@ const GRADE_RANGE: Record<string, number[]> = {
   '高等専門学校': [1, 2, 3, 4, 5],
 }
 
+const ROLE_HINT: Record<string, string> = {
+  member: '通常の部員として登録します。迷ったらこちらを選んでください。',
+  captain: '部の代表者です。登録後、マイページから連盟への加盟申請ができるようになります。',
+  vice_captain: '部長を補佐する立場です。加盟申請の権限はありません。',
+  advisor: '部活動顧問の先生です。部長と同様に、登録後マイページから連盟への加盟申請ができます。',
+}
+
 export default function Register() {
   const supabase = createClient()
   const [region, setRegion] = useState('')
@@ -54,7 +61,7 @@ export default function Register() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!schoolId) return alert('学校を選択してください')
+    if (!schoolId) return alert('学校名を検索し、候補から選択してください')
     setSubmitting(true)
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
@@ -100,100 +107,167 @@ export default function Register() {
   const gradeOptions = schoolType ? GRADE_RANGE[schoolType] : [1, 2, 3]
 
   return (
-    <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
-      <p className="eyebrow mb-2">Join</p>
-      <h1 className="page-title mb-6">新規登録</h1>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input placeholder="メールアドレス" type="email" required
-          onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
-        <input placeholder="パスワード" type="password" required
-          onChange={e => setForm({ ...form, password: e.target.value })} className="input-base" />
+    <main className="page-container">
+      <div className="page-narrow">
+        <p className="eyebrow mb-2">Join</p>
+        <h1 className="page-title mb-2">新規登録</h1>
+        <p className="mb-8 text-sm text-ink/70">
+          個人としての会員登録フォームです。下記の1〜4をすべて入力し、一番下の「登録する」ボタンを押してください。
+          すべての項目が必須です。所属団体（クイズ研究部）は、選択した学校をもとに自動で紐づきます。
+        </p>
 
-        <div className="grid grid-cols-2 gap-3">
-          <input placeholder="姓" required
-            onChange={e => setForm({ ...form, lastName: e.target.value })} className="input-base" />
-          <input placeholder="名" required
-            onChange={e => setForm({ ...form, firstName: e.target.value })} className="input-base" />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <input placeholder="せい（かな）" required
-            onChange={e => setForm({ ...form, lastNameKana: e.target.value })} className="input-base" />
-          <input placeholder="めい（かな）" required
-            onChange={e => setForm({ ...form, firstNameKana: e.target.value })} className="input-base" />
-        </div>
+        <form onSubmit={handleSubmit} className="space-y-9">
+          <section className="space-y-3">
+            <h2 className="font-display text-sm font-bold text-navy">1. ログイン情報</h2>
+            <div>
+              <label className="field-label" htmlFor="email">メールアドレス</label>
+              <input id="email" placeholder="example@school.ac.jp" type="email" required
+                onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label" htmlFor="password">パスワード</label>
+              <input id="password" placeholder="8文字以上を推奨します" type="password" required
+                onChange={e => setForm({ ...form, password: e.target.value })} className="input-base" />
+              <p className="mt-1 text-xs text-ink/40">今後ログインする際に使用します。忘れないよう保管してください。</p>
+            </div>
+          </section>
 
-        <input placeholder="ハンドルネーム" required
-          onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
+          <section className="space-y-3">
+            <h2 className="font-display text-sm font-bold text-navy">2. 本人情報</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="field-label">姓</label>
+                <input placeholder="例: 山田" required
+                  onChange={e => setForm({ ...form, lastName: e.target.value })} className="input-base" />
+              </div>
+              <div>
+                <label className="field-label">名</label>
+                <input placeholder="例: 太郎" required
+                  onChange={e => setForm({ ...form, firstName: e.target.value })} className="input-base" />
+              </div>
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="field-label">せい（ふりがな）</label>
+                <input placeholder="例: やまだ" required
+                  onChange={e => setForm({ ...form, lastNameKana: e.target.value })} className="input-base" />
+              </div>
+              <div>
+                <label className="field-label">めい（ふりがな）</label>
+                <input placeholder="例: たろう" required
+                  onChange={e => setForm({ ...form, firstNameKana: e.target.value })} className="input-base" />
+              </div>
+            </div>
+            <div>
+              <label className="field-label">ハンドルネーム</label>
+              <input placeholder="大会結果や連盟のページに表示される名前です" required
+                onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label">生年月日</label>
+              <input type="date" required
+                onChange={e => setForm({ ...form, birthday: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label">性別</label>
+              <select onChange={e => setForm({ ...form, gender: e.target.value })} className="input-base">
+                <option value="no_answer">回答しない</option>
+                <option value="male">男性</option>
+                <option value="female">女性</option>
+                <option value="other">その他</option>
+              </select>
+            </div>
+          </section>
 
-        <select value={region} required
-          onChange={e => { setRegion(e.target.value); setPrefecture(''); handleSchoolTypeChange('') }}
-          className="input-base">
-          <option value="">地域を選択</option>
-          {Object.keys(REGIONS).map(r => <option key={r} value={r}>{r}</option>)}
-        </select>
+          <section className="space-y-3">
+            <h2 className="font-display text-sm font-bold text-navy">3. 学校情報</h2>
+            <p className="text-xs text-ink/50">地域 → 都道府県 → 学校種の順に選ぶと、学校名の候補が絞り込まれます。</p>
+            <div>
+              <label className="field-label">地域</label>
+              <select value={region} required
+                onChange={e => { setRegion(e.target.value); setPrefecture(''); handleSchoolTypeChange('') }}
+                className="input-base">
+                <option value="">地域を選択</option>
+                {Object.keys(REGIONS).map(r => <option key={r} value={r}>{r}</option>)}
+              </select>
+            </div>
 
-        {region && (
-          <select value={prefecture} required
-            onChange={e => { setPrefecture(e.target.value); handleSchoolTypeChange('') }}
-            className="input-base">
-            <option value="">都道府県を選択</option>
-            {REGIONS[region].map(p => <option key={p} value={p}>{p}</option>)}
-          </select>
-        )}
-
-        {prefecture && (
-          <select value={schoolType} required
-            onChange={e => handleSchoolTypeChange(e.target.value)}
-            className="input-base">
-            <option value="">学校種を選択</option>
-            {SCHOOL_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
-          </select>
-        )}
-
-        {prefecture && schoolType && (
-          <div className="relative">
-            <input placeholder="学校名を検索" value={schoolQuery}
-              onChange={e => searchSchools(e.target.value)} className="input-base" />
-            {schools.length > 0 && (
-              <ul className="absolute z-10 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-white shadow-lg">
-                {schools.map(s => (
-                  <li key={s.id} className="cursor-pointer p-2 hover:bg-paper"
-                    onClick={() => {
-                      setSchoolId(s.id)
-                      setSelectedSchoolLabel(s.name)
-                      setSchoolQuery(s.name)
-                      setSchools([])
-                    }}>
-                    {s.name}
-                  </li>
-                ))}
-              </ul>
+            {region && (
+              <div>
+                <label className="field-label">都道府県</label>
+                <select value={prefecture} required
+                  onChange={e => { setPrefecture(e.target.value); handleSchoolTypeChange('') }}
+                  className="input-base">
+                  <option value="">都道府県を選択</option>
+                  {REGIONS[region].map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
             )}
-            {schoolId && <p className="mt-1 text-xs text-akane">選択中: {selectedSchoolLabel}</p>}
-          </div>
-        )}
 
-        <input placeholder="誕生日" type="date" required
-          onChange={e => setForm({ ...form, birthday: e.target.value })} className="input-base" />
-        <select onChange={e => setForm({ ...form, gender: e.target.value })} className="input-base">
-          <option value="no_answer">回答しない</option>
-          <option value="male">男性</option>
-          <option value="female">女性</option>
-          <option value="other">その他</option>
-        </select>
-        <select value={form.grade} onChange={e => setForm({ ...form, grade: e.target.value })} className="input-base">
-          {gradeOptions.map(g => <option key={g} value={g}>{g}年生</option>)}
-        </select>
-        <select onChange={e => setForm({ ...form, role: e.target.value })} className="input-base">
-          <option value="member">部員</option>
-          <option value="captain">部長</option>
-          <option value="vice_captain">副部長</option>
-          <option value="advisor">顧問</option>
-        </select>
-        <button disabled={submitting} className="btn-primary w-full">
-          {submitting ? '登録中...' : '登録する'}
-        </button>
-      </form>
+            {prefecture && (
+              <div>
+                <label className="field-label">学校種</label>
+                <select value={schoolType} required
+                  onChange={e => handleSchoolTypeChange(e.target.value)}
+                  className="input-base">
+                  <option value="">学校種を選択</option>
+                  {SCHOOL_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                </select>
+              </div>
+            )}
+
+            {prefecture && schoolType && (
+              <div className="relative">
+                <label className="field-label">学校名</label>
+                <input placeholder="学校名の一部を入力して検索" value={schoolQuery}
+                  onChange={e => searchSchools(e.target.value)} className="input-base" />
+                {schools.length > 0 && (
+                  <ul className="absolute z-10 max-h-56 w-full overflow-y-auto rounded-lg border border-line bg-white shadow-lg">
+                    {schools.map(s => (
+                      <li key={s.id} className="cursor-pointer p-2 hover:bg-paper"
+                        onClick={() => {
+                          setSchoolId(s.id)
+                          setSelectedSchoolLabel(s.name)
+                          setSchoolQuery(s.name)
+                          setSchools([])
+                        }}>
+                        {s.name}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {schoolId
+                  ? <p className="mt-1 text-xs text-akane">選択中: {selectedSchoolLabel}</p>
+                  : <p className="mt-1 text-xs text-ink/40">候補が表示されない場合は、学校名の表記（漢字/かな）を変えてお試しください。</p>}
+              </div>
+            )}
+          </section>
+
+          <section className="space-y-3">
+            <h2 className="font-display text-sm font-bold text-navy">4. 部活動での立場</h2>
+            <div>
+              <label className="field-label">学年</label>
+              <select value={form.grade} onChange={e => setForm({ ...form, grade: e.target.value })} className="input-base">
+                {gradeOptions.map(g => <option key={g} value={g}>{g}年生</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="field-label">部内の役職</label>
+              <select value={form.role} onChange={e => setForm({ ...form, role: e.target.value })} className="input-base">
+                <option value="member">部員</option>
+                <option value="captain">部長</option>
+                <option value="vice_captain">副部長</option>
+                <option value="advisor">顧問</option>
+              </select>
+              <p className="mt-1 text-xs text-ink/50">{ROLE_HINT[form.role]}</p>
+            </div>
+          </section>
+
+          <button disabled={submitting} className="btn-primary w-full">
+            {submitting ? '登録中...' : '登録する'}
+          </button>
+        </form>
+      </div>
     </main>
   )
 }

@@ -19,22 +19,35 @@ export default function Contact() {
 
   if (sent) {
     return (
-      <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
-        <div className="card"><p className="text-sm text-ink/70">お問い合わせを受け付けました。内容を確認の上、ご連絡いたします。</p></div>
+      <main className="page-container">
+        <div className="page-narrow">
+          <div className="card"><p className="text-sm text-ink/70">お問い合わせを受け付けました。内容を確認の上、ご連絡いたします。</p></div>
+        </div>
       </main>
     )
   }
 
   return (
-    <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
-      <p className="eyebrow mb-2">Contact</p>
-      <h1 className="page-title mb-6">お問い合わせ</h1>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input placeholder="お名前" required onChange={e => setForm({ ...form, name: e.target.value })} className="input-base" />
-        <input placeholder="メールアドレス" type="email" required onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
-        <textarea placeholder="お問い合わせ内容" required onChange={e => setForm({ ...form, message: e.target.value })} className="input-base min-h-40" />
-        <button disabled={sending} className="btn-primary w-full">{sending ? '送信中...' : '送信する'}</button>
-      </form>
+    <main className="page-container">
+      <div className="page-narrow">
+        <p className="eyebrow mb-2">Contact</p>
+        <h1 className="page-title mb-6">お問い合わせ</h1>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div>
+            <label className="field-label">お名前</label>
+            <input placeholder="お名前" required onChange={e => setForm({ ...form, name: e.target.value })} className="input-base" />
+          </div>
+          <div>
+            <label className="field-label">メールアドレス</label>
+            <input placeholder="example@school.ac.jp" type="email" required onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
+          </div>
+          <div>
+            <label className="field-label">お問い合わせ内容</label>
+            <textarea placeholder="お問い合わせ内容をご記入ください" required onChange={e => setForm({ ...form, message: e.target.value })} className="input-base min-h-40" />
+          </div>
+          <button disabled={sending} className="btn-primary w-full">{sending ? '送信中...' : '送信する'}</button>
+        </form>
+      </div>
     </main>
   )
 }

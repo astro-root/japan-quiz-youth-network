@@ -16,7 +16,7 @@ export default async function Clubs() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
       <p className="eyebrow mb-2">Clubs</p>
       <h1 className="page-title mb-8">加盟クイズ研究部一覧</h1>
       <ClubsList

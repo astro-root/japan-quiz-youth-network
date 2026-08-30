@@ -50,38 +50,61 @@ export default function EditProfile() {
   if (loading) return <p className="p-12 font-mono text-sm text-ink/50">読み込み中...</p>
 
   return (
-    <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
-      <p className="eyebrow mb-2">Edit</p>
-      <h1 className="page-title mb-6">プロフィール編集</h1>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <div className="grid grid-cols-2 gap-3">
-          <input placeholder="姓" value={form.lastName} required
-            onChange={e => setForm({ ...form, lastName: e.target.value })} className="input-base" />
-          <input placeholder="名" value={form.firstName} required
-            onChange={e => setForm({ ...form, firstName: e.target.value })} className="input-base" />
-        </div>
-        <div className="grid grid-cols-2 gap-3">
-          <input placeholder="せい（かな）" value={form.lastNameKana} required
-            onChange={e => setForm({ ...form, lastNameKana: e.target.value })} className="input-base" />
-          <input placeholder="めい（かな）" value={form.firstNameKana} required
-            onChange={e => setForm({ ...form, firstNameKana: e.target.value })} className="input-base" />
-        </div>
-        <input placeholder="ハンドルネーム" value={form.handleName} required
-          onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
-        <input type="date" value={form.birthday} required
-          onChange={e => setForm({ ...form, birthday: e.target.value })} className="input-base" />
-        <select value={form.gender} onChange={e => setForm({ ...form, gender: e.target.value })} className="input-base">
-          <option value="no_answer">回答しない</option>
-          <option value="male">男性</option>
-          <option value="female">女性</option>
-          <option value="other">その他</option>
-        </select>
-        <div className="flex gap-3">
-          <button disabled={saving} className="btn-primary flex-1">{saving ? '保存中...' : '保存する'}</button>
-          <a href="/mypage" className="btn-secondary flex-1 text-center">キャンセル</a>
-        </div>
-      </form>
-      <p className="mt-4 text-xs text-ink/40">学校・学年の変更は現在対応していません。変更が必要な場合はお問い合わせください。</p>
+    <main className="page-container">
+      <div className="page-narrow">
+        <p className="eyebrow mb-2">Edit</p>
+        <h1 className="page-title mb-6">プロフィール編集</h1>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="field-label">姓</label>
+              <input placeholder="姓" value={form.lastName} required
+                onChange={e => setForm({ ...form, lastName: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label">名</label>
+              <input placeholder="名" value={form.firstName} required
+                onChange={e => setForm({ ...form, firstName: e.target.value })} className="input-base" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="field-label">せい（ふりがな）</label>
+              <input placeholder="せい（かな）" value={form.lastNameKana} required
+                onChange={e => setForm({ ...form, lastNameKana: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label">めい（ふりがな）</label>
+              <input placeholder="めい（かな）" value={form.firstNameKana} required
+                onChange={e => setForm({ ...form, firstNameKana: e.target.value })} className="input-base" />
+            </div>
+          </div>
+          <div>
+            <label className="field-label">ハンドルネーム</label>
+            <input placeholder="ハンドルネーム" value={form.handleName} required
+              onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
+          </div>
+          <div>
+            <label className="field-label">生年月日</label>
+            <input type="date" value={form.birthday} required
+              onChange={e => setForm({ ...form, birthday: e.target.value })} className="input-base" />
+          </div>
+          <div>
+            <label className="field-label">性別</label>
+            <select value={form.gender} onChange={e => setForm({ ...form, gender: e.target.value })} className="input-base">
+              <option value="no_answer">回答しない</option>
+              <option value="male">男性</option>
+              <option value="female">女性</option>
+              <option value="other">その他</option>
+            </select>
+          </div>
+          <div className="flex gap-3">
+            <button disabled={saving} className="btn-primary flex-1">{saving ? '保存中...' : '保存する'}</button>
+            <a href="/mypage" className="btn-secondary flex-1 text-center">キャンセル</a>
+          </div>
+        </form>
+        <p className="mt-4 text-xs text-ink/40">学校・学年の変更は現在対応していません。変更が必要な場合はお問い合わせください。</p>
+      </div>
     </main>
   )
 }

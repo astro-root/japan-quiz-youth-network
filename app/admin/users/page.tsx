@@ -45,7 +45,7 @@ export default function AdminUsers() {
   }
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
       <p className="eyebrow mb-2">Users</p>
       <h1 className="page-title mb-6">参加者・役職管理</h1>
 
@@ -56,7 +56,7 @@ export default function AdminUsers() {
         className="input-base mb-6"
       />
 
-      {!canManage && <p className="mb-6 text-sm text-ink/60">閲覧のみ可能です。役職の変更は連盟長・最高技術責任者のみ行えます。</p>}
+      {!canManage && <p className="mb-6 text-sm text-ink/60">閲覧のみ可能です。役職の変更は連盟長・最高技術責任者・管理者のみ行えます。</p>}
 
       <div className="space-y-3">
         {filtered.map(r => {

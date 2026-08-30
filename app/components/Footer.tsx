@@ -1,7 +1,7 @@
 export default function Footer() {
   return (
     <footer className="mt-16 border-t border-line py-8">
-      <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-4 text-center font-mono text-xs text-ink/50 md:flex-row md:justify-between md:px-6">
+      <div className="mx-auto flex max-w-4xl flex-col items-center gap-3 px-4 text-center font-mono text-xs text-ink/50 md:flex-row md:justify-between md:px-6">
         <span>© 全国中高クイズ連盟 / Japan Youth Quiz Network</span>
         <div className="flex gap-4">
           <a href="/announcements" className="hover:text-akane">お知らせ</a>

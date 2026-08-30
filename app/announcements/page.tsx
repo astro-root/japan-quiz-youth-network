@@ -9,7 +9,8 @@ export default async function Announcements() {
     .order('published_at', { ascending: false })
 
   return (
-    <main className="mx-auto max-w-2xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">News</p>
       <h1 className="page-title mb-8">お知らせ</h1>
       <div className="space-y-4">
@@ -23,6 +24,7 @@ export default async function Announcements() {
           </div>
         ))}
         {(!items || items.length === 0) && <p className="text-sm text-ink/50">お知らせはまだありません。</p>}
+      </div>
       </div>
     </main>
   )

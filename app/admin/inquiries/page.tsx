@@ -21,7 +21,8 @@ export default function AdminInquiries() {
   }
 
   return (
-    <main className="mx-auto max-w-3xl px-4 py-10 md:px-6 md:py-12">
+    <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Inquiries</p>
       <h1 className="page-title mb-6">お問い合わせ管理</h1>
       <div className="space-y-3">
@@ -38,6 +39,7 @@ export default function AdminInquiries() {
           </div>
         ))}
         {rows.length === 0 && <p className="text-sm text-ink/50">お問い合わせはありません。</p>}
+      </div>
       </div>
     </main>
   )
