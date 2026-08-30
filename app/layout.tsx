@@ -1,7 +1,8 @@
 import './globals.css'
+import Header from './components/Header'
 
 export const metadata = {
-  title: '全国中高クイズ統括団体',
+  title: '全国中高クイズ連盟 | Japan Youth Quiz Network',
   description: '全国の中高クイズ団体・大会・プレイヤーをつなぐプラットフォーム',
 }
 
@@ -16,7 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           rel="stylesheet"
         />
       </head>
-      <body className="font-body">{children}</body>
+      <body className="font-body">
+        <Header />
+        {children}
+      </body>
     </html>
   )
 }

@@ -23,9 +23,11 @@ export default function Register() {
   const [schools, setSchools] = useState<School[]>([])
   const [schoolId, setSchoolId] = useState('')
   const [selectedSchoolLabel, setSelectedSchoolLabel] = useState('')
+  const [submitting, setSubmitting] = useState(false)
   const [form, setForm] = useState({
-    email: '', password: '', realName: '', handleName: '',
-    birthday: '', gender: 'no_answer', grade: '1', role: 'member',
+    email: '', password: '',
+    lastName: '', firstName: '', lastNameKana: '', firstNameKana: '',
+    handleName: '', birthday: '', gender: 'no_answer', grade: '1', role: 'member',
   })
 
   async function searchSchools(q: string) {
@@ -53,13 +55,29 @@ export default function Register() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!schoolId) return alert('学校を選択してください')
-    const { data, error } = await supabase.auth.signUp({
+    setSubmitting(true)
+
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: form.email, password: form.password,
     })
-    if (error || !data.user) return alert(error?.message)
-    await supabase.from('profiles').insert({
-      id: data.user.id,
-      real_name: form.realName,
+    if (signUpError || !signUpData.user) {
+      setSubmitting(false)
+      return alert(`登録に失敗しました: ${signUpError?.message ?? '不明なエラー'}`)
+    }
+
+    if (!signUpData.session) {
+      setSubmitting(false)
+      alert('確認メールを送信しました。メール内のリンクからログインし直してから、もう一度この画面でプロフィールを入力してください。')
+      window.location.href = '/login'
+      return
+    }
+
+    const { error: profileError } = await supabase.from('profiles').insert({
+      id: signUpData.user.id,
+      last_name: form.lastName,
+      first_name: form.firstName,
+      last_name_kana: form.lastNameKana,
+      first_name_kana: form.firstNameKana,
       handle_name: form.handleName,
       birthday: form.birthday,
       gender: form.gender,
@@ -67,13 +85,22 @@ export default function Register() {
       role: form.role,
       school_id: schoolId,
     })
+
+    setSubmitting(false)
+
+    if (profileError) {
+      alert(`プロフィールの保存に失敗しました: ${profileError.message}\nお手数ですがログイン後もう一度お試しください。`)
+      window.location.href = '/login'
+      return
+    }
+
     window.location.href = '/mypage'
   }
 
   const gradeOptions = schoolType ? GRADE_RANGE[schoolType] : [1, 2, 3]
 
   return (
-    <main className="mx-auto max-w-md px-6 py-12">
+    <main className="mx-auto max-w-md px-4 py-10 md:px-6 md:py-12">
       <p className="eyebrow mb-2">Join</p>
       <h1 className="page-title mb-6">新規登録</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
@@ -81,8 +108,20 @@ export default function Register() {
           onChange={e => setForm({ ...form, email: e.target.value })} className="input-base" />
         <input placeholder="パスワード" type="password" required
           onChange={e => setForm({ ...form, password: e.target.value })} className="input-base" />
-        <input placeholder="本名" required
-          onChange={e => setForm({ ...form, realName: e.target.value })} className="input-base" />
+
+        <div className="grid grid-cols-2 gap-3">
+          <input placeholder="姓" required
+            onChange={e => setForm({ ...form, lastName: e.target.value })} className="input-base" />
+          <input placeholder="名" required
+            onChange={e => setForm({ ...form, firstName: e.target.value })} className="input-base" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <input placeholder="せい（かな）" required
+            onChange={e => setForm({ ...form, lastNameKana: e.target.value })} className="input-base" />
+          <input placeholder="めい（かな）" required
+            onChange={e => setForm({ ...form, firstNameKana: e.target.value })} className="input-base" />
+        </div>
+
         <input placeholder="ハンドルネーム" required
           onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
 
@@ -151,7 +190,9 @@ export default function Register() {
           <option value="vice_captain">副部長</option>
           <option value="advisor">顧問</option>
         </select>
-        <button className="btn-primary w-full">登録する</button>
+        <button disabled={submitting} className="btn-primary w-full">
+          {submitting ? '登録中...' : '登録する'}
+        </button>
       </form>
     </main>
   )

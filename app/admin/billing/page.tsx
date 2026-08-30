@@ -50,8 +50,8 @@ export default function AdminBilling() {
         </button>
       </div>
 
-      <div className="card overflow-hidden p-0">
-        <table className="w-full text-sm">
+      <div className="card overflow-x-auto p-0">
+        <table className="w-full min-w-[560px] text-sm">
           <thead>
             <tr className="border-b border-line text-left font-mono text-xs text-ink/50">
               <th className="p-3">団体</th><th>金額</th><th>状態</th><th>請求日</th><th></th>

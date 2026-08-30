@@ -22,16 +22,13 @@ export async function updateSession(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser()
 
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url))
-    }
+    if (!user) return NextResponse.redirect(new URL('/login', request.url))
     const { data: profile } = await supabase
       .from('profiles')
-      .select('role')
+      .select('is_staff, is_super_admin')
       .eq('id', user.id)
       .single()
-
-    if (!profile || !['staff', 'super_admin'].includes(profile.role)) {
+    if (!profile || (!profile.is_staff && !profile.is_super_admin)) {
       return NextResponse.redirect(new URL('/', request.url))
     }
   }
