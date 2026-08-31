@@ -4,6 +4,8 @@ export default async function ClubDetail({ params }: { params: Promise<{ id: str
   const { id } = await params
   const supabase = await createClient()
   const { data: club } = await supabase.from('organization_stats').select('*').eq('organization_id', id).single()
+  const gradeCounts: Record<string, number> = club?.grade_counts ?? {}
+  const gradeEntries = Object.entries(gradeCounts).sort((a, b) => Number(a[0]) - Number(b[0]))
 
   return (
     <main className="page-container">
@@ -15,7 +17,7 @@ export default async function ClubDetail({ params }: { params: Promise<{ id: str
         <dl className="space-y-2 font-mono text-sm">
           <div>部員数: {club?.member_count}名</div>
           <div>部長: {club?.captain_name ?? '未設定'}</div>
-          <div>男女比: {club?.male_count}:{club?.female_count}</div>
+          <div>学年別人数: {gradeEntries.length > 0 ? gradeEntries.map(([g, n]) => `${g}年 ${n}人`).join(' / ') : '未設定'}</div>
         </dl>
       </div>
       </div>

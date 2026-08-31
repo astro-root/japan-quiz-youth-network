@@ -20,6 +20,7 @@ export default async function AdminUserDetail({ params }: { params: Promise<{ id
 
   const roles: FederationRole[] = profile.federation_roles ?? ['member']
   const org = profile.organizations as any
+  const { data: email } = await supabase.rpc('admin_get_profile_email', { p_user_id: id })
 
   return (
     <main className="page-container">
@@ -28,10 +29,12 @@ export default async function AdminUserDetail({ params }: { params: Promise<{ id
       <h1 className="page-title mb-2">{profile.last_name} {profile.first_name}</h1>
       <div className="mb-6 flex flex-wrap gap-2">
         {roles.map(r => <span key={r} className={r === 'member' ? 'badge-navy' : 'badge-gold'}>{FEDERATION_ROLE_LABELS[r]}</span>)}
+        {profile.banned && <span className="rounded-full bg-akane/15 px-3 py-1 text-xs font-bold text-akane">BAN中</span>}
       </div>
 
       <div className="card">
         <dl className="grid grid-cols-2 gap-y-3 text-sm">
+          <div><dt className="font-mono text-xs text-ink/50">メールアドレス</dt><dd>{email ?? '-'}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">氏名（かな）</dt><dd>{profile.last_name_kana} {profile.first_name_kana}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">ハンドルネーム</dt><dd>{profile.handle_name}</dd></div>
           <div><dt className="font-mono text-xs text-ink/50">生年月日</dt><dd>{profile.birthday}</dd></div>

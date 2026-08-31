@@ -17,6 +17,7 @@ export default async function Clubs() {
 
   return (
     <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Clubs</p>
       <h1 className="page-title mb-8">加盟クイズ研究部一覧</h1>
       <ClubsList
@@ -24,6 +25,7 @@ export default async function Clubs() {
         regionOrder={[...Object.keys(REGIONS), 'その他']}
         prefectureToRegion={prefectureToRegion}
       />
+      </div>
     </main>
   )
 }

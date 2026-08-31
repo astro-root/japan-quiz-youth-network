@@ -47,7 +47,7 @@ body {
   }
 
   .page-narrow {
-    @apply mx-auto w-full max-w-md;
+    @apply mx-auto w-full max-w-2xl;
   }
 
   .page-reading {

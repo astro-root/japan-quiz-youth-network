@@ -11,6 +11,7 @@ export default async function Home() {
 
   return (
     <main className="page-container">
+      <div className="page-reading">
       <section className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
         <div>
           <p className="eyebrow mb-3">Japan Youth Quiz Network</p>
@@ -98,6 +99,7 @@ export default async function Home() {
           <p className="text-sm text-ink/70">部員として登録すると、部長・顧問はマイページから連盟への加盟を申請できます。</p>
         </div>
       </section>
+      </div>
     </main>
   )
 }

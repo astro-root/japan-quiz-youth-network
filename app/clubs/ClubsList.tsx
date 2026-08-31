@@ -41,15 +41,22 @@ export default function ClubsList({ clubs, regionOrder, prefectureToRegion }: {
               <div key={prefecture}>
                 <h3 className="mb-2 font-mono text-sm text-ink/60">{prefecture}（{list.length}団体）</h3>
                 <div className="grid gap-3">
-                  {list.map(c => (
+                  {list.map(c => {
+                    const gradeCounts: Record<string, number> = c.grade_counts ?? {}
+                    const gradeEntries = Object.entries(gradeCounts).sort((a, b) => Number(a[0]) - Number(b[0]))
+                    return (
                     <a key={c.organization_id} href={`/clubs/${c.organization_id}`} className="card block transition hover:border-akane">
                       <div className="font-display font-bold text-navy">{c.school_name} {c.name}</div>
                       {c.address && <div className="mt-1 text-xs text-ink/50">{c.address}</div>}
                       <div className="mt-1 font-mono text-sm text-ink/60">
-                        部員数 {c.member_count} / 部長 {c.captain_name ?? '未設定'} / 男女比 {c.male_count}:{c.female_count}
+                        部員数 {c.member_count} / 部長 {c.captain_name ?? '未設定'}
+                        {gradeEntries.length > 0 && (
+                          <> / {gradeEntries.map(([g, n]) => `${g}年 ${n}人`).join(' ')}</>
+                        )}
                       </div>
                     </a>
-                  ))}
+                    )
+                  })}
                 </div>
               </div>
             ))}

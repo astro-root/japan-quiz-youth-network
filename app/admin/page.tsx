@@ -36,6 +36,7 @@ export default function Admin() {
 
   return (
     <main className="page-container">
+      <div className="page-reading">
       <p className="eyebrow mb-2">Admin</p>
       <h1 className="page-title mb-6">管理画面</h1>
 
@@ -61,6 +62,7 @@ export default function Admin() {
       <button onClick={handlePromote} disabled={promoting} className="btn-primary">
         {promoting ? '処理中...' : '年次進級を一斉実行'}
       </button>
+      </div>
     </main>
   )
 }
