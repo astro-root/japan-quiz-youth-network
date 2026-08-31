@@ -39,6 +39,12 @@ export default async function MyPage() {
   const roles: FederationRole[] = profile.federation_roles ?? ['member']
   const hasAdminAccess = roles.some(r => ADMIN_PAGE_ROLES.includes(r))
 
+  const { data: myEntries } = await supabase
+    .from('entries')
+    .select('id, created_at, tournaments(id, name, event_date, status)')
+    .eq('user_id', user.id)
+    .order('created_at', { ascending: false })
+
   return (
     <main className="page-container">
       <div className="page-narrow">
@@ -74,6 +80,27 @@ export default async function MyPage() {
             <div><dt className="font-mono text-xs text-ink/50">部内の役職</dt><dd>{profile.role}</dd></div>
             <div><dt className="font-mono text-xs text-ink/50">ステータス</dt><dd>{profile.status}</dd></div>
           </dl>
+        </div>
+
+        <div className="card mb-6">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="font-display font-bold text-navy">申し込んだ大会</p>
+            <a href="/tournaments" className="font-mono text-xs text-akane underline">大会一覧を見る →</a>
+          </div>
+          {(!myEntries || myEntries.length === 0) && <p className="text-sm text-ink/60">まだエントリーした大会がありません。</p>}
+          <div className="space-y-2">
+            {myEntries?.map((en: any) => (
+              <a key={en.id} href={`/tournaments/${en.tournaments?.id}`} className="block rounded-lg border border-line p-3 transition hover:border-akane">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-display text-sm font-bold text-navy">{en.tournaments?.name}</span>
+                  <span className={en.tournaments?.status === 'recruiting' ? 'badge-navy' : 'badge-gold'}>
+                    {en.tournaments?.status === 'recruiting' ? '募集中' : en.tournaments?.status === 'closed' ? '締切' : '下書き'}
+                  </span>
+                </div>
+                <p className="mt-1 font-mono text-xs text-ink/50">開催日: {en.tournaments?.event_date ?? '未定'}</p>
+              </a>
+            ))}
+          </div>
         </div>
 
         {org && (profile.role === 'captain' || profile.role === 'advisor') && (

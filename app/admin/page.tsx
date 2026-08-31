@@ -50,6 +50,7 @@ export default function Admin() {
       </div>
 
       <div className="mb-8 flex flex-wrap gap-3">
+        <a href="/admin/tournaments" className="btn-secondary text-sm">大会・エントリー管理</a>
         <a href="/admin/users" className="btn-secondary text-sm">参加者・役職管理</a>
         <a href="/admin/membership-queue" className="btn-secondary text-sm">加盟申請キュー</a>
         <a href="/admin/billing" className="btn-secondary text-sm">年会費管理</a>

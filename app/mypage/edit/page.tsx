@@ -10,7 +10,7 @@ export default function EditProfile() {
   const [saving, setSaving] = useState(false)
   const [form, setForm] = useState({
     lastName: '', firstName: '', lastNameKana: '', firstNameKana: '',
-    handleName: '', birthday: '', gender: 'no_answer',
+    handleName: '', handleNameKana: '', birthday: '', gender: 'no_answer',
   })
 
   useEffect(() => {
@@ -18,13 +18,14 @@ export default function EditProfile() {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return router.push('/login')
       const { data } = await supabase.from('profiles')
-        .select('last_name, first_name, last_name_kana, first_name_kana, handle_name, birthday, gender')
+        .select('last_name, first_name, last_name_kana, first_name_kana, handle_name, handle_name_kana, birthday, gender')
         .eq('id', user.id).single()
       if (data) {
         setForm({
           lastName: data.last_name, firstName: data.first_name,
           lastNameKana: data.last_name_kana, firstNameKana: data.first_name_kana,
-          handleName: data.handle_name, birthday: data.birthday, gender: data.gender,
+          handleName: data.handle_name, handleNameKana: data.handle_name_kana ?? '',
+          birthday: data.birthday, gender: data.gender,
         })
       }
       setLoading(false)
@@ -40,7 +41,8 @@ export default function EditProfile() {
     const { error } = await supabase.from('profiles').update({
       last_name: form.lastName, first_name: form.firstName,
       last_name_kana: form.lastNameKana, first_name_kana: form.firstNameKana,
-      handle_name: form.handleName, birthday: form.birthday, gender: form.gender,
+      handle_name: form.handleName, handle_name_kana: form.handleNameKana,
+      birthday: form.birthday, gender: form.gender,
     }).eq('id', user.id)
     setSaving(false)
     if (error) return alert(error.message)
@@ -83,6 +85,11 @@ export default function EditProfile() {
             <label className="field-label">ハンドルネーム</label>
             <input placeholder="ハンドルネーム" value={form.handleName} required
               onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
+          </div>
+          <div>
+            <label className="field-label">ハンドルネーム（かな）</label>
+            <input placeholder="ハンドルネーム（かな）" value={form.handleNameKana} required
+              onChange={e => setForm({ ...form, handleNameKana: e.target.value })} className="input-base" />
           </div>
           <div>
             <label className="field-label">生年月日</label>

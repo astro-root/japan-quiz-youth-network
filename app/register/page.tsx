@@ -34,7 +34,7 @@ export default function Register() {
   const [form, setForm] = useState({
     email: '', password: '',
     lastName: '', firstName: '', lastNameKana: '', firstNameKana: '',
-    handleName: '', birthday: '', gender: 'no_answer', grade: '1', role: 'member',
+    handleName: '', handleNameKana: '', birthday: '', gender: 'no_answer', grade: '1', role: 'member',
   })
 
   async function searchSchools(q: string) {
@@ -86,6 +86,7 @@ export default function Register() {
       last_name_kana: form.lastNameKana,
       first_name_kana: form.firstNameKana,
       handle_name: form.handleName,
+      handle_name_kana: form.handleNameKana,
       birthday: form.birthday,
       gender: form.gender,
       grade: Number(form.grade),
@@ -162,6 +163,11 @@ export default function Register() {
               <label className="field-label">ハンドルネーム</label>
               <input placeholder="大会結果や連盟のページに表示される名前です" required
                 onChange={e => setForm({ ...form, handleName: e.target.value })} className="input-base" />
+            </div>
+            <div>
+              <label className="field-label">ハンドルネーム（かな）</label>
+              <input placeholder="例: やまだたろう" required
+                onChange={e => setForm({ ...form, handleNameKana: e.target.value })} className="input-base" />
             </div>
             <div>
               <label className="field-label">生年月日</label>
