@@ -45,6 +45,12 @@ export default async function MyPage() {
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
 
+  const { data: myTournaments } = await supabase
+    .from('tournaments')
+    .select('id, name, event_date, status')
+    .eq('created_by', user.id)
+    .order('created_at', { ascending: false })
+
   return (
     <main className="page-container">
       <div className="page-narrow">
@@ -80,6 +86,27 @@ export default async function MyPage() {
             <div><dt className="font-mono text-xs text-ink/50">部内の役職</dt><dd>{profile.role}</dd></div>
             <div><dt className="font-mono text-xs text-ink/50">ステータス</dt><dd>{profile.status}</dd></div>
           </dl>
+        </div>
+
+        <div className="card mb-6">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="font-display font-bold text-navy">主催している大会</p>
+            <a href="/tournaments/manage" className="font-mono text-xs text-akane underline">大会を作成・管理する →</a>
+          </div>
+          {(!myTournaments || myTournaments.length === 0) && <p className="text-sm text-ink/60">まだ大会を作成していません。誰でも大会を作成できます。</p>}
+          <div className="space-y-2">
+            {myTournaments?.map((t: any) => (
+              <a key={t.id} href={`/tournaments/manage/${t.id}`} className="block rounded-lg border border-line p-3 transition hover:border-akane">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-display text-sm font-bold text-navy">{t.name}</span>
+                  <span className={t.status === 'recruiting' ? 'badge-navy' : 'badge-gold'}>
+                    {t.status === 'recruiting' ? '募集中' : t.status === 'closed' ? '締切' : '下書き'}
+                  </span>
+                </div>
+                <p className="mt-1 font-mono text-xs text-ink/50">開催日: {t.event_date ?? '未定'}</p>
+              </a>
+            ))}
+          </div>
         </div>
 
         <div className="card mb-6">
