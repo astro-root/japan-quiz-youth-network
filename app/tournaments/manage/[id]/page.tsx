@@ -197,9 +197,13 @@ export default function ManageTournament() {
             <label className="field-label">公開状態</label>
             <select value={tournament.status} onChange={e => setTournament({ ...tournament, status: e.target.value })} className="input-base">
               <option value="draft">下書き（非公開）</option>
-              <option value="recruiting">募集中（一覧に表示・エントリー可）</option>
+              <option value="pending_review">運営レビュー中</option>
+              <option value="recruiting">募集中（運営の承認後に一覧へ表示・エントリー可）</option>
               <option value="closed">締切（エントリー不可）</option>
             </select>
+            <p className="mt-1 text-xs text-ink/50">
+              「募集中」を選んで保存しても、運営の承認が完了するまでは自動的に「運営レビュー中」として扱われます。
+            </p>
           </div>
           <button onClick={saveTournament} disabled={saving} className="btn-primary">{saving ? '保存中...' : '大会情報を保存'}</button>
         </section>
@@ -243,24 +247,10 @@ export default function ManageTournament() {
           )}
 
           <div className="border-t border-line pt-4">
-            <p className="field-label mb-2">質問を自由に作成</p>
-            <div className="space-y-2">
-              <input placeholder="質問文（例: 所属団体名）" value={customLabel} onChange={e => setCustomLabel(e.target.value)} className="input-base" />
-              <div className="grid grid-cols-2 gap-2">
-                <select value={customType} onChange={e => setCustomType(e.target.value as QuestionType)} className="input-base">
-                  {QUESTION_TYPES.map(t => <option key={t} value={t}>{QUESTION_TYPE_LABELS[t]}</option>)}
-                </select>
-                <label className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" checked={customRequired} onChange={e => setCustomRequired(e.target.checked)} />
-                  必須項目にする
-                </label>
-              </div>
-              {OPTION_TYPES.includes(customType) && (
-                <textarea placeholder={'選択肢を改行区切りで入力\n例:\nA\nB\nC'} value={customOptions}
-                  onChange={e => setCustomOptions(e.target.value)} className="input-base min-h-20" />
-              )}
-              <button onClick={addCustomQuestion} disabled={addingCustom} className="btn-secondary">質問を追加</button>
-            </div>
+            <p className="text-xs text-ink/50">
+              個人情報収集の悪用を防ぐため、ユーザー主催の大会では上記の「よく使う質問」テンプレート以外の
+              自由な質問項目は追加できません。テンプレートにない項目が必要な場合は、運営にお問い合わせください。
+            </p>
           </div>
         </section>
 

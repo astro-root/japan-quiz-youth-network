@@ -6,9 +6,8 @@ const DISPLAY_ORDER: FederationRole[] = ['federation_president', 'cto', 'admin',
 export default async function Team() {
   const supabase = await createClient()
   const { data: people } = await supabase
-    .from('profiles')
+    .from('public_federation_roles')
     .select('handle_name, federation_roles')
-    .neq('federation_roles', '{member}')
 
   const byRole: Record<string, string[]> = {}
   for (const person of people ?? []) {

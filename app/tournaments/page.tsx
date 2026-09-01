@@ -14,7 +14,7 @@ export default async function Tournaments() {
   const supabase = await createClient()
   const { data: tournaments } = await supabase
     .from('tournaments')
-    .select('id, name, description, event_date, location, entry_deadline, capacity')
+    .select('id, name, description, event_date, location, entry_deadline, capacity, is_official')
     .eq('status', 'recruiting')
     .order('event_date', { ascending: true })
 
@@ -25,6 +25,7 @@ export default async function Tournaments() {
         <h1 className="page-title mb-2">エントリー受付中の大会</h1>
         <p className="mb-8 text-sm text-ink/70">
           現在エントリーを受け付けている大会の一覧です。大会名をタップすると詳細とエントリーフォームに進めます。
+          「公式」は連盟運営が主催・確認済みの大会、「ユーザー主催」は会員が作成し運営の承認を経て公開された大会です。
         </p>
 
         {(!tournaments || tournaments.length === 0) && (
@@ -38,7 +39,10 @@ export default async function Tournaments() {
             <a key={t.id} href={`/tournaments/${t.id}`} className="card block transition hover:border-akane">
               <div className="mb-2 flex items-center justify-between gap-2">
                 <h2 className="font-display font-bold text-navy">{t.name}</h2>
-                <span className="badge-navy shrink-0">募集中</span>
+                <div className="flex shrink-0 gap-1">
+                  <span className={t.is_official ? 'badge-gold' : 'badge-navy'}>{t.is_official ? '公式' : 'ユーザー主催'}</span>
+                  <span className="badge-navy">募集中</span>
+                </div>
               </div>
               {t.description && <p className="mb-3 text-sm text-ink/70 line-clamp-2">{t.description}</p>}
               <dl className="grid grid-cols-1 gap-1 font-mono text-xs text-ink/60 sm:grid-cols-2">

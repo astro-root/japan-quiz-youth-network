@@ -4,6 +4,8 @@ import MembershipApplyButton from './apply-button'
 import DeleteAccountButton from './delete-account-button'
 import { FEDERATION_ROLE_LABELS, type FederationRole } from '@/lib/roles'
 
+const PART_ROLE_LABELS: Record<string, string> = { captain: '部長', advisor: '顧問' }
+
 const ADMIN_PAGE_ROLES: FederationRole[] = ['federation_president', 'cto', 'admin']
 
 export default async function MyPage() {
@@ -87,6 +89,16 @@ export default async function MyPage() {
             <div><dt className="font-mono text-xs text-ink/50">ステータス</dt><dd>{profile.status}</dd></div>
           </dl>
         </div>
+
+        {profile.requested_role && (
+          <div className="card mb-6 border-akane/30 bg-akane/5">
+            <p className="font-display font-bold text-akane">役職の承認待ちです</p>
+            <p className="mt-1 text-sm text-ink/70">
+              「{PART_ROLE_LABELS[profile.requested_role] ?? profile.requested_role}」への変更を運営に申請中です。
+              運営の確認が完了するまで、現在の役職（{profile.role}）のまま表示されます。
+            </p>
+          </div>
+        )}
 
         <div className="card mb-6">
           <div className="mb-3 flex items-center justify-between">

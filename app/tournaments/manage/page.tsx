@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
-const STATUS_LABELS: Record<string, string> = { draft: '下書き', recruiting: '募集中', closed: '締切' }
+const STATUS_LABELS: Record<string, string> = { draft: '下書き', pending_review: '運営レビュー中', recruiting: '募集中', closed: '締切' }
 
 export default function MyTournaments() {
   const supabase = createClient()

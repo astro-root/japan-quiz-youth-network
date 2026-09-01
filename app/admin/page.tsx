@@ -54,6 +54,7 @@ export default function Admin() {
         <a href="/admin/tournaments" className="btn-secondary text-sm">大会・エントリー管理</a>
         <a href="/admin/users" className="btn-secondary text-sm">参加者・役職管理</a>
         <a href="/admin/membership-queue" className="btn-secondary text-sm">加盟申請キュー</a>
+        <a href="/admin/role-requests" className="btn-secondary text-sm">役職承認待ち</a>
         <a href="/admin/billing" className="btn-secondary text-sm">年会費管理</a>
         <a href="/admin/announcements" className="btn-secondary text-sm">お知らせ配信</a>
         <a href="/admin/inquiries" className="btn-secondary text-sm">お問い合わせ管理</a>
