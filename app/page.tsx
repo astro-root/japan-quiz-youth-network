@@ -31,11 +31,20 @@ export default async function Home() {
 
         <div className="flex justify-center">
           <svg viewBox="0 0 400 400" className="buzzer-pulse w-48 sm:w-64 md:w-80" role="img" aria-label="早押しボタン">
-            <circle cx="200" cy="200" r="185" fill="none" stroke="#DCD6C7" strokeWidth="2" />
-            <circle cx="200" cy="200" r="150" fill="none" stroke="#14213D" strokeWidth="3" strokeDasharray="3 12" />
-            <circle cx="200" cy="200" r="118" fill="#BE2A28" />
-            <circle cx="200" cy="200" r="118" fill="none" stroke="#C9A227" strokeWidth="7" />
-            <text x="200" y="216" textAnchor="middle" fontFamily="'Zen Kaku Gothic New'" fontWeight="900" fontSize="56" fill="#FAF7EF">Q</text>
+            <defs>
+              <radialGradient id="buzzerDome" cx="35%" cy="30%" r="75%">
+                <stop offset="0%" stopColor="#FF6B54" />
+                <stop offset="55%" stopColor="#FF3B30" />
+                <stop offset="100%" stopColor="#E22A1F" />
+              </radialGradient>
+            </defs>
+            <circle cx="200" cy="200" r="185" fill="none" stroke="#DEE0D9" strokeWidth="2" />
+            <circle cx="200" cy="200" r="150" fill="none" stroke="#191B1F" strokeWidth="3" strokeDasharray="3 12" />
+            <circle cx="200" cy="200" r="122" fill="#191B1F" opacity="0.08" />
+            <circle cx="200" cy="200" r="118" fill="url(#buzzerDome)" />
+            <circle cx="200" cy="200" r="118" fill="none" stroke="#FFC845" strokeWidth="7" />
+            <ellipse cx="165" cy="155" rx="46" ry="26" fill="#FFFFFF" opacity="0.22" />
+            <text x="200" y="216" textAnchor="middle" fontFamily="'Zen Maru Gothic'" fontWeight="900" fontSize="56" fill="#F4F5F1">Q</text>
           </svg>
         </div>
       </section>

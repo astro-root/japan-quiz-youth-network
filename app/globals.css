@@ -3,43 +3,56 @@
 @tailwind utilities;
 
 body {
-  background-color: #FAF7EF;
-  color: #1C1C1E;
+  background-color: #F4F5F1;
+  color: #1B1D1E;
 }
 
 @layer components {
+  /* 早押しボタンを模した、押し込み感のある主要ボタン */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-akane px-6 py-3 font-display font-bold text-paper transition hover:brightness-110 disabled:opacity-50;
-    box-shadow: 0 0 0 3px rgba(190, 42, 40, 0.15);
+    @apply inline-flex items-center justify-center rounded-full bg-akane px-6 py-3 font-display font-bold text-paper transition disabled:opacity-50;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.25), 0 4px 0 rgba(0,0,0,0.28);
   }
-  .btn-primary:hover { box-shadow: 0 0 0 5px rgba(190, 42, 40, 0.2); }
+  .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(2px); box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 1px 0 rgba(0,0,0,0.28); }
 
   .btn-secondary {
     @apply inline-flex items-center justify-center rounded-full border-2 border-navy px-6 py-3 font-display font-bold text-navy transition hover:bg-navy hover:text-paper disabled:opacity-50;
   }
 
+  /* スコアボードのパネルのような、輪郭のはっきりしたカード */
   .card {
-    @apply rounded-2xl border border-line bg-white p-6 shadow-sm;
+    @apply rounded-lg border border-line bg-white p-6;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), 0 1px 2px rgba(25,27,31,0.06);
   }
 
   .input-base {
-    @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-akane/40;
+    @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-gold/60;
   }
 
+  /* 点灯中のLEDインジケーターを模したラベル */
   .eyebrow {
-    @apply font-mono text-xs uppercase tracking-widest text-akane;
+    @apply inline-flex items-center gap-1.5 font-mono text-[11px] tracking-wide text-akane;
+  }
+  .eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background-color: currentColor;
   }
 
   .badge-gold {
-    @apply inline-flex items-center rounded-full bg-gold/15 px-3 py-1 text-xs font-bold text-gold;
+    @apply inline-flex items-center rounded-full bg-gold/25 px-3 py-1 font-mono text-xs font-bold text-navy;
   }
 
   .badge-navy {
-    @apply inline-flex items-center rounded-full bg-navy/10 px-3 py-1 text-xs font-bold text-navy;
+    @apply inline-flex items-center rounded-full bg-navy/10 px-3 py-1 font-mono text-xs font-bold text-navy;
   }
 
   .page-title {
-    @apply font-display text-2xl font-bold text-navy;
+    @apply font-display text-2xl font-black text-navy;
   }
 
   .page-container {
