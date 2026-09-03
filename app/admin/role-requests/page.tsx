@@ -40,7 +40,7 @@ export default function RoleRequests() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Admin</p>
         <h1 className="page-title mb-2">役職承認待ち</h1>
         <p className="mb-6 text-sm text-ink/70">

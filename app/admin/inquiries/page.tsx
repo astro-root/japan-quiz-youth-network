@@ -22,7 +22,7 @@ export default function AdminInquiries() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <p className="eyebrow mb-2">Inquiries</p>
       <h1 className="page-title mb-6">お問い合わせ管理</h1>
       <div className="space-y-3">

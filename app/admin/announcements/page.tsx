@@ -45,7 +45,7 @@ export default function AdminAnnouncements() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <p className="eyebrow mb-2">Announcements</p>
       <h1 className="page-title mb-6">お知らせ配信</h1>
 

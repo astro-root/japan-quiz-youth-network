@@ -20,7 +20,7 @@ export default async function Tournaments() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Tournaments</p>
         <h1 className="page-title mb-2">エントリー受付中の大会</h1>
         <p className="mb-8 text-sm text-ink/70">
@@ -33,7 +33,7 @@ export default async function Tournaments() {
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {tournaments?.map(t => (
             <a key={t.id} href={`/tournaments/${t.id}`} className="card block transition hover:border-akane">
               <div className="mb-2 flex items-center justify-between gap-2">

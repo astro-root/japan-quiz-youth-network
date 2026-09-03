@@ -22,7 +22,7 @@ export default async function MyPage() {
   if (!profile) {
     return (
       <main className="page-container">
-        <div className="page-narrow">
+        <div className="page-wide">
           <p className="eyebrow mb-2">My Page</p>
           <h1 className="page-title mb-4">プロフィールが見つかりません</h1>
           <div className="card">
@@ -55,7 +55,7 @@ export default async function MyPage() {
 
   return (
     <main className="page-container">
-      <div className="page-narrow">
+      <div className="page-wide">
         <div className="mb-6 flex items-center justify-between">
           <div>
             <p className="eyebrow mb-2">My Page</p>

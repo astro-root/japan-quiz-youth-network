@@ -49,7 +49,7 @@ export default function MyTournaments() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Organize</p>
         <h1 className="page-title mb-6">自分が主催する大会</h1>
 

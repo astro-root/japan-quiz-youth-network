@@ -39,7 +39,7 @@ export default function AdminBilling() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <p className="eyebrow mb-2">Billing</p>
       <h1 className="page-title mb-6">年会費管理（{CURRENT_FISCAL_YEAR}年度）</h1>
 

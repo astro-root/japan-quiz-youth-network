@@ -126,7 +126,7 @@ export default function AdminTournamentEdit() {
 
   if (loading) return <p className="p-12 font-mono text-sm text-ink/50">読み込み中...</p>
   if (!tournament) {
-    return <main className="page-container"><div className="page-reading"><p className="text-sm text-ink/50">大会が見つかりませんでした。</p></div></main>
+    return <main className="page-container"><div className="page-wide"><p className="text-sm text-ink/50">大会が見つかりませんでした。</p></div></main>
   }
 
   const usedTemplateKeys = new Set(questions.map(q => q.template_key).filter(Boolean))
@@ -134,7 +134,7 @@ export default function AdminTournamentEdit() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Admin</p>
         <h1 className="page-title mb-6">{tournament.name || '大会編集'}</h1>
 

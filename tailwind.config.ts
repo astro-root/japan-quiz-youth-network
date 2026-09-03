@@ -19,12 +19,12 @@ const config: Config = {
         line: '#DEE0D9',
       },
       fontFamily: {
-        // 見出し・ボタン: 丸ゴシックで勢いと親しみを出す
-        display: ['"Zen Maru Gothic"', 'sans-serif'],
+        // 見出し・ボタン: 角ゴシックの太字で、締まった印象にする
+        display: ['"Zen Kaku Gothic New"', 'sans-serif'],
         // 本文: 引き続きNoto Sans JP（フォーム・管理画面の可読性を優先）
         body: ['"Noto Sans JP"', 'sans-serif'],
-        // ラベル・数字・バッジ: スコアボードのLEDドット表示を想起させる書体
-        mono: ['"DotGothic16"', 'monospace'],
+        // ラベル・数字・バッジ: 可読性を保ちつつ機械的な質感を出す書体
+        mono: ['"Space Mono"', 'monospace'],
       },
     },
   },

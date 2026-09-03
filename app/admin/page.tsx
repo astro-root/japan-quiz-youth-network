@@ -36,7 +36,7 @@ export default function Admin() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <p className="eyebrow mb-2">Admin</p>
       <h1 className="page-title mb-6">管理画面</h1>
 

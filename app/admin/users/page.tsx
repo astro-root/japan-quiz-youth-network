@@ -71,7 +71,7 @@ export default function AdminUsers() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Users</p>
         <h1 className="page-title mb-6">参加者・役職管理</h1>
 

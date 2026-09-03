@@ -142,7 +142,7 @@ export default function ManageTournament() {
   if (notOwner) {
     return (
       <main className="page-container">
-        <div className="page-reading">
+        <div className="page-wide">
           <p className="text-sm text-ink/50">この大会を編集する権限がありません。自分が作成した大会のみ編集できます。</p>
           <a href="/tournaments/manage" className="mt-4 inline-block text-sm font-bold text-navy underline">自分の大会一覧に戻る</a>
         </div>
@@ -155,7 +155,7 @@ export default function ManageTournament() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Organize</p>
         <h1 className="page-title mb-6">{tournament.name || '大会編集'}</h1>
 

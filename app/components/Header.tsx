@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-navy bg-navy/95 backdrop-blur">
-      <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3 sm:px-6 md:py-4">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8 md:py-4">
         <a href="/" className="flex items-center gap-2">
           <img src="/logo.jpeg" alt="全国中高クイズ連盟" className="h-9 w-9 rounded-full object-cover" />
           <span aria-hidden="true" className="buzzer-pulse h-2 w-2 shrink-0 rounded-full bg-akane" />

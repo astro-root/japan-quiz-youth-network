@@ -44,7 +44,7 @@ export default function MembershipQueue() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Queue</p>
         <h1 className="page-title mb-6">加盟申請キュー</h1>
         {rows.length === 0 && <p className="text-sm text-ink/50">申請待ちの団体はありません。</p>}

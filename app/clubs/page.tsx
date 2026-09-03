@@ -17,7 +17,7 @@ export default async function Clubs() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <p className="eyebrow mb-2">Clubs</p>
       <h1 className="page-title mb-8">加盟クイズ研究部一覧</h1>
       <ClubsList

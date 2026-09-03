@@ -41,7 +41,7 @@ export default function AdminTournaments() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
         <p className="eyebrow mb-2">Admin</p>
         <h1 className="page-title mb-6">大会・エントリー管理</h1>
 

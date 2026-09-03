@@ -10,14 +10,14 @@ body {
 @layer components {
   /* 早押しボタンを模した、押し込み感のある主要ボタン */
   .btn-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-akane px-6 py-3 font-display font-bold text-paper transition disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-full bg-akane px-6 py-3 font-display font-bold tracking-tight text-paper transition disabled:opacity-50;
     box-shadow: inset 0 2px 0 rgba(255,255,255,0.25), 0 4px 0 rgba(0,0,0,0.28);
   }
   .btn-primary:hover { filter: brightness(1.06); transform: translateY(-1px); }
   .btn-primary:active { transform: translateY(2px); box-shadow: inset 0 2px 0 rgba(255,255,255,0.15), 0 1px 0 rgba(0,0,0,0.28); }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center rounded-full border-2 border-navy px-6 py-3 font-display font-bold text-navy transition hover:bg-navy hover:text-paper disabled:opacity-50;
+    @apply inline-flex items-center justify-center rounded-full border-2 border-navy px-6 py-3 font-display font-bold tracking-tight text-navy transition hover:bg-navy hover:text-paper disabled:opacity-50;
   }
 
   /* スコアボードのパネルのような、輪郭のはっきりしたカード */
@@ -30,9 +30,9 @@ body {
     @apply w-full rounded-lg border border-line bg-white px-3 py-2 text-ink placeholder:text-ink/40 focus:outline-none focus:ring-2 focus:ring-gold/60;
   }
 
-  /* 点灯中のLEDインジケーターを模したラベル */
+  /* 点灯中のLEDインジケーターを模したラベル（書体は可読性重視のSpace Mono） */
   .eyebrow {
-    @apply inline-flex items-center gap-1.5 font-mono text-[11px] tracking-wide text-akane;
+    @apply inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-akane;
   }
   .eyebrow::before {
     content: '';
@@ -44,26 +44,29 @@ body {
   }
 
   .badge-gold {
-    @apply inline-flex items-center rounded-full bg-gold/25 px-3 py-1 font-mono text-xs font-bold text-navy;
+    @apply inline-flex items-center rounded-full bg-gold/25 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide text-navy;
   }
 
   .badge-navy {
-    @apply inline-flex items-center rounded-full bg-navy/10 px-3 py-1 font-mono text-xs font-bold text-navy;
+    @apply inline-flex items-center rounded-full bg-navy/10 px-3 py-1 font-mono text-xs font-bold uppercase tracking-wide text-navy;
   }
 
   .page-title {
-    @apply font-display text-2xl font-black text-navy;
+    @apply font-display text-2xl font-black tracking-tight text-navy;
   }
 
+  /* ページ全体の外枠。すべてのページの幅の基準はここ一箇所 */
   .page-container {
-    @apply mx-auto w-full max-w-4xl px-4 py-10 sm:px-6 md:py-14;
+    @apply mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 lg:px-8 md:py-14;
   }
 
-  .page-narrow {
-    @apply mx-auto w-full max-w-2xl;
+  /* 一覧・ダッシュボード系ページ用: page-containerの幅をそのまま使う（追加の幅制限なし） */
+  .page-wide {
+    @apply w-full;
   }
 
-  .page-reading {
+  /* 記事・フォーム系ページ用: 読みやすさを優先して幅を絞る（意図的に狭いまま） */
+  .page-reading, .page-narrow {
     @apply mx-auto w-full max-w-2xl;
   }
 

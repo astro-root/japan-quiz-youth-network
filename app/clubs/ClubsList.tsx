@@ -40,7 +40,7 @@ export default function ClubsList({ clubs, regionOrder, prefectureToRegion }: {
             {Object.entries(grouped[region]).map(([prefecture, list]) => (
               <div key={prefecture}>
                 <h3 className="mb-2 font-mono text-sm text-ink/60">{prefecture}（{list.length}団体）</h3>
-                <div className="grid gap-3">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                   {list.map(c => {
                     const gradeCounts: Record<string, number> = c.grade_counts ?? {}
                     const gradeEntries = Object.entries(gradeCounts).sort((a, b) => Number(a[0]) - Number(b[0]))

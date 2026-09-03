@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <main className="page-container">
-      <div className="page-reading">
+      <div className="page-wide">
       <section className="grid items-center gap-10 md:grid-cols-2 md:gap-12">
         <div>
           <p className="eyebrow mb-3">Japan Youth Quiz Network</p>
